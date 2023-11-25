@@ -456,7 +456,9 @@ function Home() {
   return (
     <>
       {isLoading && (
-        <div className="h-screen flex flex-col items-center justify-center bg-black/30">
+        <div
+          className={` ${styles.loadingOverlay} h-screen flex flex-col items-center justify-center bg-[#002039]`}
+        >
           <div
             className="flex sm:h-40 sm:mt-8 text-4xl mb-3 w-full flex-col text-center items-center justify-center"
             style={{ fontFamily: "Nabla" }}
