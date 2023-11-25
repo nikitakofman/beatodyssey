@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Slider } from "@mui/material";
 import styles from "../styles/Home.module.css";
 import confetti from "canvas-confetti";
 
 function Home() {
   const [reverbLevel, setReverbLevel] = useState(0);
   const [lastPlayed, setLastPlayed] = useState(null);
-  const [activeKey, setActiveKey] = useState(null);
   const [activeKeys, setActiveKeys] = useState({});
   const [progress, setProgress] = useState({});
   const sounds = useRef({});
@@ -19,23 +17,28 @@ function Home() {
   const [volume, setVolume] = useState(0.5);
   const [isFrenchLayout, setIsFrenchLayout] = useState(false);
   const activeTouches = useRef({});
-  const [autoPlayActive, setAutoPlayActive] = useState(false);
   const [isAutoplaying, setIsAutoplaying] = useState(false);
-  const [isConfettiActive, setIsConfettiActive] = useState(false);
   const [confettiInterval, setConfettiInterval] = useState(null);
   const bufferSourceRef = useRef();
 
   const [isMagicActive, setIsMagicActive] = useState(false);
-  const audioRef = useRef(null);
-  const audioBufferRef = useRef(null); // To store the decoded audio buffer
-  const sourceNodeRef = useRef(null); // To manage the audio source node
+  const audioBufferRef = useRef(null);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Initialize AudioContext
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000); // 3000 milliseconds = 3 seconds
+
+    // Clean up the timer when the component unmounts
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     audioContext.current = new (window.AudioContext ||
       window.webkitAudioContext)();
 
-    // Load and decode audio file
     fetch("/glitch_full.mp3")
       .then((response) => {
         return response.arrayBuffer();
@@ -44,18 +47,16 @@ function Home() {
         return audioContext.current.decodeAudioData(arrayBuffer);
       })
       .then((audioBuffer) => {
-        audioBufferRef.current = audioBuffer; // Store the decoded buffer for later use
+        audioBufferRef.current = audioBuffer;
 
-        // Create a buffer source for glitch_full.mp3
         bufferSourceRef.current = audioContext.current.createBufferSource();
         bufferSourceRef.current.buffer = audioBufferRef.current;
         bufferSourceRef.current.loop = true;
-        bufferSourceRef.current.connect(analyser.current); // Connect to the analyser
+        bufferSourceRef.current.connect(analyser.current);
       })
       .catch((e) => console.error(e));
 
     return () => {
-      // Clean up on unmount
       if (audioContext.current) {
         audioContext.current.close();
       }
@@ -64,8 +65,6 @@ function Home() {
       }
     };
   }, []);
-
-  const triggerConfetti = () => {};
 
   useEffect(() => {
     reverbLevelRef.current = reverbLevel;
@@ -81,11 +80,9 @@ function Home() {
 
   useEffect(() => {
     if (typeof AudioContext !== "undefined") {
-      // Create and set up the audio context
       audioContext.current = new AudioContext();
       analyser.current = audioContext.current.createAnalyser();
 
-      // Create and configure the convolver for reverb
       const convolver = audioContext.current.createConvolver();
       const impulseResponseUrl = "/IRNK.wav";
       fetch(impulseResponseUrl)
@@ -103,7 +100,6 @@ function Home() {
         );
       sounds.current.globalConvolver = convolver;
 
-      // Initialize audio nodes for each sound
       const soundNames = [
         "glitch_vocal1",
         "glitch_vocal2",
@@ -179,28 +175,6 @@ function Home() {
       const reverbLevelValue = reverbLevelRef.current / 100;
       sounds.current[melody].reverbNode.gain.value = reverbLevelValue;
     }
-  }
-
-  function createReverbNode(melody) {
-    sounds.current[melody].reverbNode = audioContext.current.createGain();
-    const convolver = audioContext.current.createConvolver();
-    const impulseResponseUrl = "/IRNK.wav";
-    fetch(impulseResponseUrl)
-      .then((response) => response.arrayBuffer())
-      .then((arrayBuffer) => audioContext.current.decodeAudioData(arrayBuffer))
-      .then((audioBuffer) => {
-        convolver.buffer = audioBuffer;
-        sounds.current[melody].reverbNode.connect(convolver);
-        convolver.connect(analyser.current);
-        convolver.connect(audioContext.current.destination);
-      })
-      .catch((error) => {
-        console.error("Error loading impulse response:", error);
-      });
-
-    sounds.current[melody].sourceNode.connect(
-      sounds.current[melody].reverbNode
-    );
   }
 
   function PlaySound(melody, key) {
@@ -312,7 +286,7 @@ function Home() {
   };
 
   const renderProgressBar = (keyName) => {
-    if (isAutoplaying) return null; // Don't render the progress bar during autoplay
+    if (isAutoplaying) return null;
 
     return (
       <div
@@ -332,11 +306,10 @@ function Home() {
     const dataArray = new Uint8Array(bufferLength);
     analyser.current.getByteFrequencyData(dataArray);
 
-    // Clear the canvas
     ctx.clearRect(0, 0, width, height);
 
     let barWidth = (width / bufferLength) * 30;
-    let barSpacing = 2; // Adjust the spacing between bars
+    let barSpacing = 2;
     let barHeight;
     let x = 0;
 
@@ -381,167 +354,24 @@ function Home() {
       ";": "glitch_snare2",
     };
 
-    // Determine which sound to play based on the touched key
     const soundToPlay = soundMap[key];
 
     if (soundToPlay) {
-      // Trigger sound here based on the key
       PlaySound(soundToPlay, key);
 
-      // Mark the key as active
       activeTouches.current[key] = true;
     }
   };
 
-  // Handle touch end event for keys
   const handleTouchEnd = (key) => {
     event.preventDefault();
-    // Mark the key as inactive
     activeTouches.current[key] = false;
-  };
-
-  // const getActualKey = (key) => {
-  //   if (isFrenchLayout) {
-  //     const keyMap = {
-  //       a: "q",
-  //       z: "w",
-  //       q: "a",
-  //       m: ";",
-  //       w: "z",
-  //       ",": "m",
-  //       ";": "m",
-  //       // Add other necessary key mappings for AZERTY
-  //     };
-  //     return keyMap[key] || key;
-  //   }
-  //   return key;
-  // };
-
-  const numberToSoundMap = {
-    1: "glitch_vocal1",
-    2: "glitch_vocal2",
-    3: "glitch_vocal3",
-    4: "glitch_vocal4",
-    5: "glitch_kick1",
-    6: "glitch_kick2",
-    7: "glitch_perc1",
-    8: "glitch_perc2",
-    9: "glitch_hat1",
-    10: "glitch_hat2",
-    11: "glitch_snare1",
-    12: "glitch_snare2",
-    13: "glitch_chords1",
-    14: "glitch_chords2",
-    15: "glitch_chords3",
-    16: "glitch_chords4",
-    // ... more mappings as needed
-  };
-
-  const mapQwertyToAzertyForDisplay = (key) => {
-    const qwertyToAzertyDisplayMap = {
-      q: "a",
-      w: "z",
-      // Add more mappings if necessary
-    };
-    return qwertyToAzertyDisplayMap[key] || key;
-  };
-
-  const simulateKeyPress = (number, holdTime = 500) => {
-    const qwertyKeyMap = {
-      1: "q", // VOX 1
-      2: "w", // VOX 2
-      3: "e", // VOX 3
-      4: "r", // VOX 4
-      5: "u", // KICK 1
-      6: "i", // PERC1
-      7: "o", // HAT 1
-      8: "p", // SNARE 1
-      9: "a", // CHORD 1
-      10: "s", // CHORD 2
-      11: "d", // CHORD 3
-      12: "f", // CHORD 4
-      13: "j", // KICK 2
-      14: "k", // PERC 2
-      15: "l", // HAT 2
-      16: ";", // SNARE 2
-      // ... other mappings for QWERTY
-    };
-
-    const azertyKeyMap = {
-      1: "a",
-      2: "z",
-      // ... other mappings for AZERTY
-    };
-
-    setIsAutoplaying(true); // Set
-
-    const keyMap = isFrenchLayout ? azertyKeyMap : qwertyKeyMap;
-    const keyName = keyMap[number];
-    const soundToPlay = numberToSoundMap[number];
-
-    if (soundToPlay && keyName) {
-      PlaySound(soundToPlay, keyName);
-
-      // Update the style for the key being simulated
-      const styledKey = isFrenchLayout
-        ? mapQwertyToAzertyForDisplay(keyName)
-        : keyName;
-      setActiveKeys((prev) => ({ ...prev, [styledKey]: true }));
-
-      setProgress((prev) => ({ ...prev, [styledKey]: 0 }));
-      if (progressIntervals.current[styledKey]) {
-        cancelAnimationFrame(progressIntervals.current[styledKey]);
-      }
-
-      progressIntervals.current[styledKey] = requestAnimationFrame(() =>
-        updateProgress(sounds.current[soundToPlay].audio, styledKey)
-      );
-
-      setTimeout(() => {
-        setActiveKeys((prev) => ({ ...prev, [styledKey]: false }));
-        setIsAutoplaying(false);
-      }, holdTime);
-    }
-  };
-
-  const autoPlaySequence = [
-    { number: 5, delay: 1000 },
-    { number: 6, delay: 3000 },
-    { number: 13, delay: 5000 },
-
-    // ... more number sequences
-  ];
-
-  useEffect(() => {
-    if (autoPlayActive) {
-      let cumulativeDelay = 0;
-      autoPlaySequence.forEach((item) => {
-        setTimeout(() => {
-          simulateKeyPress(item.number); // Play the sound
-        }, cumulativeDelay);
-        cumulativeDelay += item.delay; // Add the current delay to the cumulative delay
-      });
-
-      // Reset after the sequence
-      setTimeout(() => {
-        setAutoPlayActive(false);
-      }, cumulativeDelay);
-    }
-  }, [autoPlayActive]);
-
-  const prepareBufferSource = () => {
-    bufferSourceRef.current = audioContext.current.createBufferSource();
-    bufferSourceRef.current.buffer = audioBufferRef.current;
-    bufferSourceRef.current.connect(audioContext.current.destination);
-    // If using an analyser
-    bufferSourceRef.current.connect(analyser.current);
   };
 
   const triggerMagic = () => {
     if (!isMagicActive) {
-      startAudioContext(); // Ensure the AudioContext is running
+      startAudioContext();
 
-      // Trigger confetti instantly
       confetti({
         particleCount: 100,
         startVelocity: 30,
@@ -549,7 +379,6 @@ function Home() {
         origin: { x: Math.random(), y: Math.random() * 0.5 },
       });
 
-      // Then start the confetti effect at intervals
       const interval = setInterval(() => {
         confetti({
           particleCount: 100,
@@ -560,22 +389,17 @@ function Home() {
       }, 600);
       setConfettiInterval(interval);
 
-      // Create and configure a new BufferSourceNode
       bufferSourceRef.current = audioContext.current.createBufferSource();
       bufferSourceRef.current.buffer = audioBufferRef.current;
       bufferSourceRef.current.loop = true;
       bufferSourceRef.current.loopStart = 0;
-      /* Your loop start timestamp in seconds */
       bufferSourceRef.current.loopEnd = 4.8;
-      /* Your loop end timestamp in seconds */
 
-      // Connect the BufferSourceNode to the destination and analyser (if used)
       bufferSourceRef.current.connect(audioContext.current.destination);
       if (analyser.current) {
         bufferSourceRef.current.connect(analyser.current);
       }
 
-      // Start playing the sound
       if (!bufferSourceRef.current.isPlaying) {
         bufferSourceRef.current.start(0);
         bufferSourceRef.current.isPlaying = true;
@@ -583,14 +407,12 @@ function Home() {
 
       setIsMagicActive(true);
     } else {
-      // Stop confetti effect
       clearInterval(confettiInterval);
 
-      // Logic to handle stopping the magic
       if (bufferSourceRef.current && bufferSourceRef.current.isPlaying) {
         bufferSourceRef.current.stop();
         bufferSourceRef.current.disconnect();
-        bufferSourceRef.current = null; // Reset the reference for the next use
+        bufferSourceRef.current = null;
       }
 
       setIsMagicActive(false);
@@ -598,9 +420,8 @@ function Home() {
   };
 
   const handleLayoutAndMagicChange = () => {
-    setIsFrenchLayout((prevLayout) => !prevLayout); // Toggle the layout
+    setIsFrenchLayout((prevLayout) => !prevLayout);
 
-    // If Magic is active, stop it and clear confetti
     if (isMagicActive) {
       clearInterval(confettiInterval);
       setIsMagicActive(false);
@@ -609,6 +430,22 @@ function Home() {
 
   const buyCoffee = () => {
     window.open("https://www.buymeacoffee.com/nikitakofman", "_blank");
+  };
+
+  const openLiquid = () => {
+    window.location.href = "/liquiddnb";
+  };
+
+  const openGlitch = () => {
+    window.location.href = "/";
+  };
+
+  const openDubstep = () => {
+    window.location.href = "/dubstep";
+  };
+
+  const openTrance = () => {
+    window.location.href = "/trance";
   };
 
   return (
@@ -675,9 +512,9 @@ function Home() {
         />
       </div>
       <div className="items-center hidden flex-col sm:flex justify-center">
-        {/* <p className="text-white mr-3 font-semibold text-xs">
-        PLAY WITH YOUR KEYBOARD!{" "}
-      </p> */}
+        <p className="text-white mr-3 font-semibold mb-2 text-xs">
+          PLAY WITH YOUR KEYBOARD!{" "}
+        </p>
         <div className="flex items-center mt-1 justify-center">
           <button
             onClick={triggerMagic}
@@ -710,12 +547,14 @@ function Home() {
           <button
             type="button"
             className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-amber-700 to-red-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500 hover:shadow-lg active:opacity-85"
+            onClick={() => openDubstep()}
           >
             DUBSTEP
           </button>
           <button
             type="button"
             className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-900 to-sky-300 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+            onClick={() => openLiquid()}
           >
             Liquid DNB
           </button>
@@ -723,12 +562,14 @@ function Home() {
           <button
             type="button"
             className="m-1 inline-block border-2 border-white px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-stone-600 to-lime-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+            onClick={() => openGlitch()}
           >
             GLITCH HOP
           </button>
           <button
             type="button"
             className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-indigo-600 to-stone-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+            onClick={() => openTrance()}
           >
             TRANCE
           </button>
