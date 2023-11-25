@@ -17,6 +17,168 @@
   text-decoration: none;
 }
 
-.title a:hover, .title a:focus, .title a:active {
+.title a:hover,
+.title a:focus,
+.title a:active {
   text-decoration: underline;
+}
+
+.menu {
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  will-change: box-shadow, transform;
+  background: #fcfcfd;
+  box-shadow: 0px 2px 4px rgb(45 35 66 / 40%),
+    0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
+  height: 48px;
+  padding: 0 32px;
+  font-size: 18px;
+  border-radius: 6px;
+  color: #36395a;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  .menu:hover {
+    box-shadow: 0px 4px 8px rgb(45 35 66 / 40%),
+      0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px #d6d6e7;
+    transform: translateY(-2px);
+  }
+  .menu:active {
+    box-shadow: inset 0px 3px 7px #d6d6e7;
+    transform: translateY(2px);
+  }
+}
+
+.keys {
+  width: 800px;
+  display: block;
+  margin: 35vh auto;
+}
+
+.keybutton {
+  background: linear-gradient(to top, #f9f9f9 0%, #d2d2d2 80%, #c0c0c0 100%);
+  box-shadow: 0 0 1px #888, 0 1px 0 #fff, 0 6px 0 #c0c0c0,
+    0 8px 17px rgba(68, 68, 68, 0.4), 2px 1px 4px rgba(68, 68, 68, 0.25),
+    -2px 1px 4px rgba(68, 68, 68, 0.25), 0 9px 16px rgba(68, 68, 68, 0.1);
+}
+
+.keybutton:hover,
+.keybutton:focus {
+  box-shadow: 0 0 1px #888, 0 1px 0 #fff, 0 4px 0 #c0c0c0,
+    0 2px 35px rgba(68, 68, 68, 0.3), 2px 2px 4px rgba(68, 68, 68, 0.25),
+    -2px 2px 4px rgba(68, 68, 68, 0.25), 0 7px 4px rgba(68, 68, 68, 0.1);
+  transform: translateY(2px);
+}
+
+.keybutton:active {
+  box-shadow: 0 0 1px #888, 0 1px 0 #fff, 0 0 0 #c0c0c0,
+    0 0px 30px rgba(68, 68, 68, 0.15), 2px 2px 4px rgba(68, 68, 68, 0.25),
+    -2px 2px 4px rgba(68, 68, 68, 0.25), 0 0px 4px rgba(68, 68, 68, 0.25);
+  transform: translateY(4px);
+}
+
+.keybutton2 {
+  background: linear-gradient(to top, #f9f9f9 0%, #d2d2d2 80%, #c0c0c0 100%);
+  box-shadow: 0 0 1px #888, 0 1px 0 #fff, 0 4px 0 #c0c0c0,
+    0 2px 35px rgba(68, 68, 68, 0.3), 2px 2px 4px rgba(68, 68, 68, 0.25),
+    -2px 2px 4px rgba(68, 68, 68, 0.25), 0 7px 4px rgba(68, 68, 68, 0.1);
+  transform: translateY(8px);
+}
+
+.keybutton2:hover,
+.keybutton2:focus {
+  box-shadow: 0 0 1px #888, 0 1px 0 #fff, 0 4px 0 #c0c0c0,
+    0 2px 35px rgba(68, 68, 68, 0.3), 2px 2px 4px rgba(68, 68, 68, 0.25),
+    -2px 2px 4px rgba(68, 68, 68, 0.25), 0 7px 4px rgba(68, 68, 68, 0.1);
+  transform: translateY(8px);
+}
+
+.keybutton2:active {
+  box-shadow: 0 0 1px #888, 0 1px 0 #fff, 0 0 0 #c0c0c0,
+    0 0px 30px rgba(68, 68, 68, 0.15), 2px 2px 4px rgba(68, 68, 68, 0.25),
+    -2px 2px 4px rgba(68, 68, 68, 0.25), 0 0px 4px rgba(68, 68, 68, 0.25);
+  transform: translateY(8px);
+}
+
+.button {
+  padding: 10px 20px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Creating the circular border as a pseudo-element */
+.button::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  bottom: -2px;
+  left: -2px;
+  background: linear-gradient(
+    60deg,
+    transparent,
+    transparent 50%,
+    #fff 50%,
+    #fff
+  );
+  background-size: 200% 200%;
+  border-radius: 8px;
+  z-index: -1;
+  transition: all 0.5s;
+}
+
+/* Animating the border */
+.button:hover::before {
+  background-position: 100% 0;
+}
+
+.animatedborder {
+  animation: borderAnimation 1s infinite;
+  border: 2px solid;
+}
+
+@keyframes borderAnimation {
+  0% {
+    border-color: rgb(238, 255, 0);
+  }
+  50% {
+    border-color: rgb(255, 198, 194);
+  }
+  100% {
+    border-color: rgb(52, 255, 52);
+  }
+}
+
+.rainbowanimation {
+  animation: rainbowAnimation 600ms ease infinite;
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #9400d3
+  );
+  background-size: 400% 400%;
+  color: white; /* Adjust text color if needed */
+}
+
+@keyframes rainbowAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
