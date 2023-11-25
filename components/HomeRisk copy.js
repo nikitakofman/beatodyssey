@@ -30,13 +30,6 @@ function Home() {
   const audioBufferRef = useRef(null); // To store the decoded audio buffer
   const sourceNodeRef = useRef(null); // To manage the audio source node
 
-  // Effect for handling volume changes
-  useEffect(() => {
-    if (sounds.current.glitchFullGainNode) {
-      sounds.current.glitchFullGainNode.gain.value = volume;
-    }
-  }, [volume]);
-
   useEffect(() => {
     // Initialize AudioContext
     audioContext.current = new (window.AudioContext ||
@@ -45,15 +38,12 @@ function Home() {
     // Load and decode audio file
     fetch("/glitch_full.mp3")
       .then((response) => {
-        console.log("Response:", response);
         return response.arrayBuffer();
       })
       .then((arrayBuffer) => {
-        console.log("Array Buffer:", arrayBuffer);
         return audioContext.current.decodeAudioData(arrayBuffer);
       })
       .then((audioBuffer) => {
-        console.log("Audio Buffer:", audioBuffer);
         audioBufferRef.current = audioBuffer; // Store the decoded buffer for later use
 
         // Create a buffer source for glitch_full.mp3
@@ -61,16 +51,6 @@ function Home() {
         bufferSourceRef.current.buffer = audioBufferRef.current;
         bufferSourceRef.current.loop = true;
         bufferSourceRef.current.connect(analyser.current); // Connect to the analyser
-
-        const glitchFullGainNode = audioContext.current.createGain();
-        glitchFullGainNode.gain.value = volume; // Set initial volume
-        bufferSourceRef.current.connect(glitchFullGainNode); // Connect to the gain node
-        glitchFullGainNode.connect(analyser.current); // Then connect gain node to analyser
-        // Also connect to destination if needed
-        glitchFullGainNode.connect(audioContext.current.destination);
-
-        // Store the gain node for later access
-        sounds.current.glitchFullGainNode = glitchFullGainNode;
       })
       .catch((e) => console.error(e));
 
@@ -85,6 +65,8 @@ function Home() {
     };
   }, []);
 
+  const triggerConfetti = () => {};
+
   useEffect(() => {
     reverbLevelRef.current = reverbLevel;
   }, [reverbLevel]);
@@ -95,11 +77,6 @@ function Home() {
         soundObj.audio.volume = volume;
       }
     });
-
-    // Adjust the volume of glitch_full
-    if (sounds.current.glitchFullGainNode) {
-      sounds.current.glitchFullGainNode.gain.value = volume;
-    }
   }, [volume]);
 
   useEffect(() => {
@@ -174,43 +151,27 @@ function Home() {
 
   function startAudioContext() {
     if (audioContext.current && audioContext.current.state === "suspended") {
-      audioContext.current.resume().then(() => {
-        console.log("Audio context started");
-        console.log(audioContext.current.state);
-      });
+      audioContext.current.resume().then(() => {});
     }
   }
 
   function initializeSound(soundName) {
-    if (soundName === "glitch_full") {
-      // Special handling for glitch_full
-      const sound = new Audio("/glitch_full.mp3");
-      sound.loop = true; // If you want it to loop
-      sound.volume = volume;
-      const sourceNode = audioContext.current.createMediaElementSource(sound);
-      sourceNode.connect(audioContext.current.destination);
-      sounds.current[soundName] = {
-        audio: sound,
-        sourceNode,
-      };
-    } else {
-      const sound = new Audio("/" + soundName + ".mp3");
-      sound.volume = volume;
-      const sourceNode = audioContext.current.createMediaElementSource(sound);
-      const dryNode = audioContext.current.createGain();
-      const reverbNode = audioContext.current.createGain();
-      sourceNode.connect(dryNode);
-      sourceNode.connect(reverbNode);
-      dryNode.connect(analyser.current);
-      dryNode.connect(audioContext.current.destination);
-      reverbNode.connect(sounds.current.globalConvolver);
-      sounds.current[soundName] = {
-        audio: sound,
-        sourceNode,
-        dryNode,
-        reverbNode,
-      };
-    }
+    const sound = new Audio("/" + soundName + ".mp3");
+    sound.volume = volume;
+    const sourceNode = audioContext.current.createMediaElementSource(sound);
+    const dryNode = audioContext.current.createGain();
+    const reverbNode = audioContext.current.createGain();
+    sourceNode.connect(dryNode);
+    sourceNode.connect(reverbNode);
+    dryNode.connect(analyser.current);
+    dryNode.connect(audioContext.current.destination);
+    reverbNode.connect(sounds.current.globalConvolver);
+    sounds.current[soundName] = {
+      audio: sound,
+      sourceNode,
+      dryNode,
+      reverbNode,
+    };
   }
 
   function setSoundParameters(melody) {
@@ -220,10 +181,29 @@ function Home() {
     }
   }
 
-  function PlaySound(melody, key) {
-    console.log(
-      `Playing sound: ${melody}, triggered by: ${key ? "key" : "mouse"}`
+  function createReverbNode(melody) {
+    sounds.current[melody].reverbNode = audioContext.current.createGain();
+    const convolver = audioContext.current.createConvolver();
+    const impulseResponseUrl = "/IRNK.wav";
+    fetch(impulseResponseUrl)
+      .then((response) => response.arrayBuffer())
+      .then((arrayBuffer) => audioContext.current.decodeAudioData(arrayBuffer))
+      .then((audioBuffer) => {
+        convolver.buffer = audioBuffer;
+        sounds.current[melody].reverbNode.connect(convolver);
+        convolver.connect(analyser.current);
+        convolver.connect(audioContext.current.destination);
+      })
+      .catch((error) => {
+        console.error("Error loading impulse response:", error);
+      });
+
+    sounds.current[melody].sourceNode.connect(
+      sounds.current[melody].reverbNode
     );
+  }
+
+  function PlaySound(melody, key) {
     setSoundParameters(melody);
 
     if (audioContext.current && audioContext.current.state === "suspended") {
@@ -500,7 +480,6 @@ function Home() {
     const soundToPlay = numberToSoundMap[number];
 
     if (soundToPlay && keyName) {
-      console.log(`Playing sound: ${soundToPlay} for number: ${number}`);
       PlaySound(soundToPlay, keyName);
 
       // Update the style for the key being simulated
@@ -550,10 +529,17 @@ function Home() {
     }
   }, [autoPlayActive]);
 
+  const prepareBufferSource = () => {
+    bufferSourceRef.current = audioContext.current.createBufferSource();
+    bufferSourceRef.current.buffer = audioBufferRef.current;
+    bufferSourceRef.current.connect(audioContext.current.destination);
+    // If using an analyser
+    bufferSourceRef.current.connect(analyser.current);
+  };
+
   const triggerMagic = () => {
     if (!isMagicActive) {
-      // Start the AudioContext if it is suspended
-      startAudioContext();
+      startAudioContext(); // Ensure the AudioContext is running
 
       // Trigger confetti instantly
       confetti({
@@ -578,35 +564,45 @@ function Home() {
       bufferSourceRef.current = audioContext.current.createBufferSource();
       bufferSourceRef.current.buffer = audioBufferRef.current;
       bufferSourceRef.current.loop = true;
-      bufferSourceRef.current.loopStart = 0; // Set your loop start timestamp in seconds
-      bufferSourceRef.current.loopEnd = 4.8; // Set your loop end timestamp in seconds
+      bufferSourceRef.current.loopStart = 0;
+      /* Your loop start timestamp in seconds */
+      bufferSourceRef.current.loopEnd = 4.8;
+      /* Your loop end timestamp in seconds */
 
-      // Connect the BufferSourceNode through the gain node to the destination
-      if (sounds.current.glitchFullGainNode) {
-        bufferSourceRef.current.connect(sounds.current.glitchFullGainNode);
-        sounds.current.glitchFullGainNode.connect(
-          audioContext.current.destination
-        );
-      } else {
-        bufferSourceRef.current.connect(audioContext.current.destination); // Fallback connection
+      // Connect the BufferSourceNode to the destination and analyser (if used)
+      bufferSourceRef.current.connect(audioContext.current.destination);
+      if (analyser.current) {
+        bufferSourceRef.current.connect(analyser.current);
       }
 
       // Start playing the sound
-      bufferSourceRef.current.start(0);
-      bufferSourceRef.current.isPlaying = true;
+      if (!bufferSourceRef.current.isPlaying) {
+        bufferSourceRef.current.start(0);
+        bufferSourceRef.current.isPlaying = true;
+      }
 
       setIsMagicActive(true);
     } else {
       // Stop confetti effect
       clearInterval(confettiInterval);
 
-      // Logic to handle stopping the magic sound
+      // Logic to handle stopping the magic
       if (bufferSourceRef.current && bufferSourceRef.current.isPlaying) {
         bufferSourceRef.current.stop();
         bufferSourceRef.current.disconnect();
         bufferSourceRef.current = null; // Reset the reference for the next use
       }
 
+      setIsMagicActive(false);
+    }
+  };
+
+  const handleLayoutAndMagicChange = () => {
+    setIsFrenchLayout((prevLayout) => !prevLayout); // Toggle the layout
+
+    // If Magic is active, stop it and clear confetti
+    if (isMagicActive) {
+      clearInterval(confettiInterval);
       setIsMagicActive(false);
     }
   };
@@ -680,8 +676,8 @@ function Home() {
       </div>
       <div className="items-center hidden flex-col sm:flex justify-center">
         {/* <p className="text-white mr-3 font-semibold text-xs">
-          PLAY WITH YOUR KEYBOARD!{" "}
-        </p> */}
+        PLAY WITH YOUR KEYBOARD!{" "}
+      </p> */}
         <div className="flex items-center mt-1 justify-center">
           <button
             onClick={triggerMagic}
@@ -692,12 +688,12 @@ function Home() {
             <span className="relative text-white">Magic</span>
           </button>
           <button
-            onClick={() => setIsFrenchLayout(!isFrenchLayout)}
+            onClick={handleLayoutAndMagicChange}
             className=" cursor-pointer transition-all 
-        bg-gray-700 text-white px-3 py-1 rounded-lg text-sm
-        border-slate-300/80
-        border-[1px] hover:brightness-110 hover:border-amber-400
-         active:brightness-90 active:translate-y-1   hover:shadow-green-300 shadow-green-300 active:shadow-none  "
+      bg-gray-700 text-white px-3 py-1 rounded-lg text-sm
+      border-slate-300/80
+      border-[1px] hover:brightness-110 hover:border-amber-400
+       active:brightness-90 active:translate-y-1   hover:shadow-green-300 shadow-green-300 active:shadow-none  "
             style={{ fontFamily: "Chivo" }}
           >
             {isFrenchLayout ? "Switch to QWERTY" : "Switch to AZERTY"}
@@ -726,7 +722,7 @@ function Home() {
 
           <button
             type="button"
-            className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-stone-600 to-lime-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+            className="m-1 inline-block border-2 border-white px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-stone-600 to-lime-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
           >
             GLITCH HOP
           </button>
