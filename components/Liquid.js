@@ -29,9 +29,8 @@ function Liquid() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000); // 3000 milliseconds = 3 seconds
+    }, 1200); // Disappear after 1 second
 
-    // Clean up the timer when the component unmounts
     return () => clearTimeout(timer);
   }, []);
 
@@ -457,7 +456,7 @@ function Liquid() {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading && (
         <div className="h-screen flex flex-col items-center justify-center bg-black/30">
           <div
             className="flex sm:h-40 sm:mt-8 text-4xl mb-3 w-full flex-col text-center items-center justify-center"
@@ -473,371 +472,370 @@ function Liquid() {
             <span></span>
           </div>
           {/* <div className="flex items-center flex-col justify-center">
-          <div
-            className="text-white flex mt-8 jusify-center relative text-center mb-3 text-lg items-center"
-            style={{ fontFamily: "Chivo" }}
-          >
-            <span>LOADING</span>
-            <p className={`${styles.loadingtext} text-white`}></p>
-          </div>
-        </div> */}
+       <div
+         className="text-white flex mt-8 jusify-center relative text-center mb-3 text-lg items-center"
+         style={{ fontFamily: "Chivo" }}
+       >
+         <span>LOADING</span>
+         <p className={`${styles.loadingtext} text-white`}></p>
+       </div>
+     </div> */}
         </div>
-      ) : (
-        <div
-          className="video-background sm:h-screen  flex flex-col items-center justify-center"
+      )}
+      <div
+        className="video-background sm:h-screen  flex flex-col items-center justify-center"
+        style={{
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <video
+          autoPlay
+          loop
+          muted
           style={{
-            position: "relative",
-            overflow: "hidden",
+            position: "absolute",
+            width: "100%",
+            left: "50%",
+            top: "50%",
+            height: "100%",
+            objectFit: "cover",
+            transform: "translate(-50%, -50%)",
+            zIndex: "-1",
           }}
         >
-          <video
-            autoPlay
-            loop
-            muted
-            style={{
-              position: "absolute",
-              width: "100%",
-              left: "50%",
-              top: "50%",
-              height: "100%",
-              objectFit: "cover",
-              transform: "translate(-50%, -50%)",
-              zIndex: "-1",
-            }}
-          >
-            <source src="/bga2.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <div
-            className="flex sm:h-40 sm:mt-8 text-5xl mb-3 w-full flex-col text-center items-center justify-center"
-            style={{ fontFamily: "Nabla" }}
-          >
-            <p className="mt-5">BEAT ODYSSEY</p>
-            <div className="flex">
-              <p
-                className="text-xs flex mt-3 font-extralight text-white cursor-pointer hover:text-slate-300"
-                style={{ fontFamily: "Chivo" }}
-                onClick={openNK}
-              >
-                made by nikitakofman.com
-              </p>
-              <p
-                className="text-xs flex mt-3 ml-2 font-extralight text-white"
-                style={{ fontFamily: "Chivo" }}
-              >
-                best enjoyed on a desktop
-              </p>
-            </div>
+          <source src="/bga2.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div
+          className="flex sm:h-40 sm:mt-8 text-5xl mb-3 w-full flex-col text-center items-center justify-center"
+          style={{ fontFamily: "Nabla" }}
+        >
+          <p className="mt-5">BEAT ODYSSEY</p>
+          <div className="flex">
+            <p
+              className="text-xs flex mt-3 font-extralight text-white cursor-pointer hover:text-slate-300"
+              style={{ fontFamily: "Chivo" }}
+              onClick={openNK}
+            >
+              made by nikitakofman.com
+            </p>
+            <p
+              className="text-xs flex mt-3 ml-2 font-extralight text-white"
+              style={{ fontFamily: "Chivo" }}
+            >
+              best enjoyed on a desktop
+            </p>
           </div>
-          <div className="sm:hidden mt-2 flex">
-            {" "}
+        </div>
+        <div className="sm:hidden mt-2 flex">
+          {" "}
+          <button
+            onClick={triggerMagic}
+            className={`relative rounded-lg sm:hidden text-xs py-1 px-2 mr-2 w-24 ml-1 mb-1 ${
+              styles.animatedborder
+            } ${isMagicActive ? styles.rainbowanimation : ""}`}
+          >
+            <span className="relative text-white">Magic</span>
+          </button>
+          <img
+            src="/coffee.png"
+            onClick={buyCoffee}
+            className="ml-2 h-[30px] cursor-pointer"
+          />
+        </div>
+        <div className="items-center hidden flex-col sm:flex justify-center">
+          <p className="text-white mr-3 font-semibold mb-2 text-xs">
+            PLAY WITH YOUR KEYBOARD!{" "}
+          </p>
+          <div className="flex items-center mt-1 justify-center">
             <button
               onClick={triggerMagic}
-              className={`relative rounded-lg sm:hidden text-xs py-1 px-2 mr-2 w-24 ml-1 mb-1 ${
+              className={`relative rounded-lg  text-xs py-1 px-6 mr-2 ${
                 styles.animatedborder
               } ${isMagicActive ? styles.rainbowanimation : ""}`}
             >
               <span className="relative text-white">Magic</span>
             </button>
-            <img
-              src="/coffee.png"
-              onClick={buyCoffee}
-              className="ml-2 h-[30px] cursor-pointer"
-            />
-          </div>
-          <div className="items-center hidden flex-col sm:flex justify-center">
-            <p className="text-white mr-3 font-semibold mb-2 text-xs">
-              PLAY WITH YOUR KEYBOARD!{" "}
-            </p>
-            <div className="flex items-center mt-1 justify-center">
-              <button
-                onClick={triggerMagic}
-                className={`relative rounded-lg  text-xs py-1 px-6 mr-2 ${
-                  styles.animatedborder
-                } ${isMagicActive ? styles.rainbowanimation : ""}`}
-              >
-                <span className="relative text-white">Magic</span>
-              </button>
-              <button
-                onClick={handleLayoutAndMagicChange}
-                className=" cursor-pointer transition-all 
+            <button
+              onClick={handleLayoutAndMagicChange}
+              className=" cursor-pointer transition-all 
       bg-gray-700 text-white px-3 py-1 rounded-lg text-sm
       border-slate-300/80
       border-[1px] hover:brightness-110 hover:border-amber-400
        active:brightness-90 active:translate-y-1   hover:shadow-green-300 shadow-green-300 active:shadow-none  "
-                style={{ fontFamily: "Chivo" }}
-              >
-                {isFrenchLayout ? "Switch to QWERTY" : "Switch to AZERTY"}
-              </button>
-              <img
-                src="/coffee.png"
-                onClick={buyCoffee}
-                className="ml-2 h-[30px] mr-2 cursor-pointer"
-              />
-            </div>
-          </div>
-          <div className="flex sm:flex-col items-center justify-center">
-            <div className="flex sm:flex-row mt-3 sm:mt-4 flex-col mb-3 ">
-              <button
-                type="button"
-                className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-amber-700 to-red-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500 hover:shadow-lg active:opacity-85"
-                onClick={() => openDubstep()}
-              >
-                DUBSTEP
-              </button>
-              <button
-                type="button"
-                className="m-1 inline-block px-3 border-2 border-white py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-900 to-sky-300 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
-                onClick={() => openLiquid()}
-              >
-                Liquid DNB
-              </button>
-
-              <button
-                type="button"
-                className="m-1 inline-block  px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-stone-600 to-lime-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
-                onClick={() => openGlitch()}
-              >
-                GLITCH HOP
-              </button>
-              <button
-                type="button"
-                className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-indigo-600 to-stone-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
-                onClick={() => openTrance()}
-              >
-                TRANCE
-              </button>
-            </div>
-            <div className="flex mt-4 mb-4 flex-col sm:flex-row">
-              <div className="flex border-2  rounded-md bg-neutral-300 p-1.5 shadow-xl flex-col items-center justify-center m-2 sm:mr-10">
-                <label className="mb-2 font-semibold">REVERB</label>
-                <input
-                  type="range"
-                  value={reverbLevel}
-                  onChange={(event) =>
-                    setReverbLevel(parseInt(event.target.value, 10))
-                  }
-                />
-                <span className="mt-2 font-light">{reverbLevel}%</span>
-              </div>
-              <div className="flex border-2  rounded-md bg-neutral-300 p-1 shadow-xl flex-col items-center justify-center  m-2 sm:ml-10">
-                <label htmlFor="volumeSlider" className="mb-2 font-semibold">
-                  VOLUME
-                </label>
-                <input
-                  id="volumeSlider"
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={volume}
-                  onChange={(e) => setVolume(parseFloat(e.target.value))}
-                />
-                <span className="mt-2 font-light">
-                  {Math.round(volume * 100)}%
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex h-full w-full flex-col sm:flex-row items-center justify-center">
-            <div className="flex w-full  text-xs items-center justify-center ">
-              <div className="flex flex-col w-full items-center justify-center">
-                <div className="flex flex-wrap items-center justify-center">
-                  <div
-                    className={getKeyStyle("q")}
-                    onClick={() => {
-                      PlaySound("liquid_vocal1", "q");
-                      setSoundParameters("liquid_vocal1");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "q")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "q")}
-                  >
-                    VOX 1{renderProgressBar("q")}
-                  </div>
-                  <div
-                    className={getKeyStyle("w")}
-                    onClick={() => {
-                      PlaySound("liquid_vocal2", "w");
-                      setSoundParameters("liquid_vocal2");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "w")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "w")}
-                  >
-                    VOX 2{renderProgressBar("w")}
-                  </div>
-                  <div
-                    className={getKeyStyle("e")}
-                    onClick={() => {
-                      PlaySound("liquid_vocal3", "e");
-                      setSoundParameters("liquid_vocal3");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "e")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "e")}
-                  >
-                    VOX 3{renderProgressBar("e")}
-                  </div>
-                  <div
-                    className={getKeyStyle("r")}
-                    onClick={() => {
-                      PlaySound("liquid_vocal4", "r");
-                      setSoundParameters("liquid_vocal4");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "r")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "r")}
-                  >
-                    VOX 4{renderProgressBar("r")}
-                  </div>
-                </div>
-                <div className="flex flex-wrap items-center justify-center">
-                  <div
-                    className={getKeyStyle("a")}
-                    onClick={() => {
-                      PlaySound("liquid_chords1", "a");
-                      setSoundParameters("liquid_chords1");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "a")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "a")}
-                  >
-                    CHORD 1{renderProgressBar("a")}
-                  </div>
-                  <div
-                    className={getKeyStyle("s")}
-                    onClick={() => {
-                      PlaySound("liquid_chords2", "s");
-                      setSoundParameters("liquid_chords2");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "s")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "s")}
-                  >
-                    CHORD 2{renderProgressBar("s")}
-                  </div>
-                  <div
-                    className={getKeyStyle("d")}
-                    onClick={() => {
-                      PlaySound("liquid_chords3", "d");
-                      setSoundParameters("liquid_chords3");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "d")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "d")}
-                  >
-                    CHORD 3{renderProgressBar("d")}
-                  </div>
-                  <div
-                    className={getKeyStyle("f")}
-                    onClick={() => {
-                      PlaySound("liquid_chords4", "f");
-                      setSoundParameters("liquid_chords4");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "f")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "f")}
-                  >
-                    CHORD 4{renderProgressBar("f")}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex w-full flex-wrap items-center text-xs justify-center ">
-              <div className="flex flex-col w-full items-center">
-                <div className="flex flex-wrap items-center justify-center">
-                  <div
-                    className={getKeyStyle("u")}
-                    onClick={() => {
-                      PlaySound("liquid_kick1", "u");
-                      setSoundParameters("liquid_kick1");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "u")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "u")}
-                  >
-                    KICK 1{renderProgressBar("u")}
-                  </div>
-                  <div
-                    className={getKeyStyle("i")}
-                    onClick={() => {
-                      PlaySound("liquid_fx1", "i");
-                      setSoundParameters("liquid_fx1");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "i")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "i")}
-                  >
-                    PERC 1{renderProgressBar("i")}
-                  </div>
-                  <div
-                    className={getKeyStyle("o")}
-                    onClick={() => {
-                      PlaySound("liquid_hats1", "o");
-                      setSoundParameters("liquid_hats1");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "o")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "o")}
-                  >
-                    HH LOOP{renderProgressBar("o")}
-                  </div>
-                  <div
-                    className={getKeyStyle("p")}
-                    onClick={() => {
-                      PlaySound("liquid_snare1", "p");
-                      setSoundParameters("liquid_snare1");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "p")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "p")}
-                  >
-                    SNARE 1{renderProgressBar("p")}
-                  </div>
-                </div>
-                <div className="flex flex-wrap items-center justify-center">
-                  <div
-                    className={getKeyStyle("j")}
-                    onClick={() => {
-                      PlaySound("liquid_bass1", "j");
-                      setSoundParameters("liquid_bass1");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "j")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "j")}
-                  >
-                    BASS 1{renderProgressBar("j")}
-                  </div>
-                  <div
-                    className={getKeyStyle("k")}
-                    onClick={() => {
-                      PlaySound("liquid_bass2", "k");
-                      setSoundParameters("liquid_bass2");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "k")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "k")}
-                  >
-                    BASS 2{renderProgressBar("k")}
-                  </div>
-                  <div
-                    className={getKeyStyle("l")}
-                    onClick={() => {
-                      PlaySound("liquid_bass3", "l");
-                      setSoundParameters("liquid_bass3");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, "l")}
-                    onTouchEnd={(event) => handleTouchEnd(event, "l")}
-                  >
-                    BASS 3{renderProgressBar("l")}
-                  </div>
-                  <div
-                    className={getKeyStyle(";")}
-                    onClick={() => {
-                      PlaySound("liquid_bass4", ";");
-                      setSoundParameters("liquid_bass4");
-                    }}
-                    onTouchStart={(event) => handleTouchStart(event, ";")}
-                    onTouchEnd={(event) => handleTouchEnd(event, ";")}
-                  >
-                    BASS 4{renderProgressBar(";")}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center">
-            <canvas ref={canvasRef} className="w-80" />
+              style={{ fontFamily: "Chivo" }}
+            >
+              {isFrenchLayout ? "Switch to QWERTY" : "Switch to AZERTY"}
+            </button>
+            <img
+              src="/coffee.png"
+              onClick={buyCoffee}
+              className="ml-2 h-[30px] mr-2 cursor-pointer"
+            />
           </div>
         </div>
-      )}
+        <div className="flex sm:flex-col items-center justify-center">
+          <div className="flex sm:flex-row mt-3 sm:mt-4 flex-col mb-3 ">
+            <button
+              type="button"
+              className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-amber-700 to-red-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500 hover:shadow-lg active:opacity-85"
+              onClick={() => openDubstep()}
+            >
+              DUBSTEP
+            </button>
+            <button
+              type="button"
+              className="m-1 inline-block px-3 border-2 border-white py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-900 to-sky-300 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+              onClick={() => openLiquid()}
+            >
+              Liquid DNB
+            </button>
+
+            <button
+              type="button"
+              className="m-1 inline-block  px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-stone-600 to-lime-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+              onClick={() => openGlitch()}
+            >
+              GLITCH HOP
+            </button>
+            <button
+              type="button"
+              className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-indigo-600 to-stone-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+              onClick={() => openTrance()}
+            >
+              TRANCE
+            </button>
+          </div>
+          <div className="flex mt-4 mb-4 flex-col sm:flex-row">
+            <div className="flex border-2  rounded-md bg-neutral-300 p-1.5 shadow-xl flex-col items-center justify-center m-2 sm:mr-10">
+              <label className="mb-2 font-semibold">REVERB</label>
+              <input
+                type="range"
+                value={reverbLevel}
+                onChange={(event) =>
+                  setReverbLevel(parseInt(event.target.value, 10))
+                }
+              />
+              <span className="mt-2 font-light">{reverbLevel}%</span>
+            </div>
+            <div className="flex border-2  rounded-md bg-neutral-300 p-1 shadow-xl flex-col items-center justify-center  m-2 sm:ml-10">
+              <label htmlFor="volumeSlider" className="mb-2 font-semibold">
+                VOLUME
+              </label>
+              <input
+                id="volumeSlider"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={volume}
+                onChange={(e) => setVolume(parseFloat(e.target.value))}
+              />
+              <span className="mt-2 font-light">
+                {Math.round(volume * 100)}%
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="flex h-full w-full flex-col sm:flex-row items-center justify-center">
+          <div className="flex w-full  text-xs items-center justify-center ">
+            <div className="flex flex-col w-full items-center justify-center">
+              <div className="flex flex-wrap items-center justify-center">
+                <div
+                  className={getKeyStyle("q")}
+                  onClick={() => {
+                    PlaySound("liquid_vocal1", "q");
+                    setSoundParameters("liquid_vocal1");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "q")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "q")}
+                >
+                  VOX 1{renderProgressBar("q")}
+                </div>
+                <div
+                  className={getKeyStyle("w")}
+                  onClick={() => {
+                    PlaySound("liquid_vocal2", "w");
+                    setSoundParameters("liquid_vocal2");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "w")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "w")}
+                >
+                  VOX 2{renderProgressBar("w")}
+                </div>
+                <div
+                  className={getKeyStyle("e")}
+                  onClick={() => {
+                    PlaySound("liquid_vocal3", "e");
+                    setSoundParameters("liquid_vocal3");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "e")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "e")}
+                >
+                  VOX 3{renderProgressBar("e")}
+                </div>
+                <div
+                  className={getKeyStyle("r")}
+                  onClick={() => {
+                    PlaySound("liquid_vocal4", "r");
+                    setSoundParameters("liquid_vocal4");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "r")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "r")}
+                >
+                  VOX 4{renderProgressBar("r")}
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center justify-center">
+                <div
+                  className={getKeyStyle("a")}
+                  onClick={() => {
+                    PlaySound("liquid_chords1", "a");
+                    setSoundParameters("liquid_chords1");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "a")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "a")}
+                >
+                  CHORD 1{renderProgressBar("a")}
+                </div>
+                <div
+                  className={getKeyStyle("s")}
+                  onClick={() => {
+                    PlaySound("liquid_chords2", "s");
+                    setSoundParameters("liquid_chords2");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "s")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "s")}
+                >
+                  CHORD 2{renderProgressBar("s")}
+                </div>
+                <div
+                  className={getKeyStyle("d")}
+                  onClick={() => {
+                    PlaySound("liquid_chords3", "d");
+                    setSoundParameters("liquid_chords3");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "d")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "d")}
+                >
+                  CHORD 3{renderProgressBar("d")}
+                </div>
+                <div
+                  className={getKeyStyle("f")}
+                  onClick={() => {
+                    PlaySound("liquid_chords4", "f");
+                    setSoundParameters("liquid_chords4");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "f")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "f")}
+                >
+                  CHORD 4{renderProgressBar("f")}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex w-full flex-wrap items-center text-xs justify-center ">
+            <div className="flex flex-col w-full items-center">
+              <div className="flex flex-wrap items-center justify-center">
+                <div
+                  className={getKeyStyle("u")}
+                  onClick={() => {
+                    PlaySound("liquid_kick1", "u");
+                    setSoundParameters("liquid_kick1");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "u")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "u")}
+                >
+                  KICK 1{renderProgressBar("u")}
+                </div>
+                <div
+                  className={getKeyStyle("i")}
+                  onClick={() => {
+                    PlaySound("liquid_fx1", "i");
+                    setSoundParameters("liquid_fx1");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "i")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "i")}
+                >
+                  PERC 1{renderProgressBar("i")}
+                </div>
+                <div
+                  className={getKeyStyle("o")}
+                  onClick={() => {
+                    PlaySound("liquid_hats1", "o");
+                    setSoundParameters("liquid_hats1");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "o")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "o")}
+                >
+                  HH LOOP{renderProgressBar("o")}
+                </div>
+                <div
+                  className={getKeyStyle("p")}
+                  onClick={() => {
+                    PlaySound("liquid_snare1", "p");
+                    setSoundParameters("liquid_snare1");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "p")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "p")}
+                >
+                  SNARE 1{renderProgressBar("p")}
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center justify-center">
+                <div
+                  className={getKeyStyle("j")}
+                  onClick={() => {
+                    PlaySound("liquid_bass1", "j");
+                    setSoundParameters("liquid_bass1");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "j")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "j")}
+                >
+                  BASS 1{renderProgressBar("j")}
+                </div>
+                <div
+                  className={getKeyStyle("k")}
+                  onClick={() => {
+                    PlaySound("liquid_bass2", "k");
+                    setSoundParameters("liquid_bass2");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "k")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "k")}
+                >
+                  BASS 2{renderProgressBar("k")}
+                </div>
+                <div
+                  className={getKeyStyle("l")}
+                  onClick={() => {
+                    PlaySound("liquid_bass3", "l");
+                    setSoundParameters("liquid_bass3");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, "l")}
+                  onTouchEnd={(event) => handleTouchEnd(event, "l")}
+                >
+                  BASS 3{renderProgressBar("l")}
+                </div>
+                <div
+                  className={getKeyStyle(";")}
+                  onClick={() => {
+                    PlaySound("liquid_bass4", ";");
+                    setSoundParameters("liquid_bass4");
+                  }}
+                  onTouchStart={(event) => handleTouchStart(event, ";")}
+                  onTouchEnd={(event) => handleTouchEnd(event, ";")}
+                >
+                  BASS 4{renderProgressBar(";")}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-center">
+          <canvas ref={canvasRef} className="w-80" />
+        </div>
+      </div>
     </>
   );
 }
