@@ -421,6 +421,22 @@ function Home() {
     window.open("https://www.buymeacoffee.com/nikitakofman", "_blank");
   };
 
+  const openLiquid = () => {
+    window.location.href = "/liquiddnb";
+  };
+
+  const openGlitch = () => {
+    window.location.href = "/";
+  };
+
+  const openDubstep = () => {
+    window.location.href = "/dubstep";
+  };
+
+  const openTrance = () => {
+    window.location.href = "/trance";
+  };
+
   return (
     <div
       className="video-background sm:h-screen  flex flex-col items-center justify-center"
@@ -520,12 +536,14 @@ function Home() {
           <button
             type="button"
             className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-amber-700 to-red-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500 hover:shadow-lg active:opacity-85"
+            onClick={() => openDubstep()}
           >
             DUBSTEP
           </button>
           <button
             type="button"
             className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-900 to-sky-300 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+            onClick={() => openLiquid()}
           >
             Liquid DNB
           </button>
@@ -533,12 +551,14 @@ function Home() {
           <button
             type="button"
             className="m-1 inline-block border-2 border-white px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-stone-600 to-lime-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+            onClick={() => openGlitch()}
           >
             GLITCH HOP
           </button>
           <button
             type="button"
             className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-indigo-600 to-stone-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+            onClick={() => openTrance()}
           >
             TRANCE
           </button>
