@@ -14,7 +14,7 @@ function Liquid() {
   const animationFrameId = useRef(null);
   const canvasRef = useRef(null);
   const reverbLevelRef = useRef(reverbLevel);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(1);
   const [isFrenchLayout, setIsFrenchLayout] = useState(false);
   const activeTouches = useRef({});
   const [isAutoplaying, setIsAutoplaying] = useState(false);
