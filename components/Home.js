@@ -449,15 +449,15 @@ function Home() {
     window.location.href = "/dubstep";
   };
 
-  const openTrance = () => {
-    window.location.href = "/trance";
+  const openLofi = () => {
+    window.location.href = "/lofi";
   };
 
   return (
     <>
       {isLoading && (
         <div
-          className={` ${styles.loadingOverlay} h-screen flex flex-col items-center justify-center bg-[#002039]`}
+          className={` ${styles.loadingOverlay} h-screen flex flex-col items-center justify-center bg-[#1f3021]`}
         >
           <div
             className="flex sm:h-40 sm:mt-8 text-4xl mb-3 w-full flex-col text-center items-center justify-center"
@@ -603,9 +603,9 @@ function Home() {
             <button
               type="button"
               className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-indigo-600 to-stone-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
-              onClick={() => openTrance()}
+              onClick={() => openLofi()}
             >
-              TRANCE
+              LOFI
             </button>
           </div>
           <div className="flex mt-4 mb-4 flex-col sm:flex-row">

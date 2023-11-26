@@ -121,7 +121,7 @@ function Dubstep() {
         "dub_arp1",
         "dub_arp2",
         "dub_fx2",
-        "liquid_chords4",
+        "dub_crash1",
         "dub_full",
       ];
       soundNames.forEach((soundName) => {
@@ -246,7 +246,7 @@ function Dubstep() {
       e: "dub_vocal3",
       r: "dub_vocal4",
       u: "dub_kick1",
-      i: "dub_fx1",
+      i: "dub_crash1",
       o: "dub_hat1",
       p: "dub_snare1",
       a: "dub_wub1",
@@ -322,8 +322,8 @@ function Dubstep() {
       barHeight = dataArray[i] / 2;
 
       const gradient = ctx.createLinearGradient(0, 0, 0, height);
-      gradient.addColorStop(0, "#E07A37");
-      gradient.addColorStop(1, "#e0875e");
+      gradient.addColorStop(0, "#b26363");
+      gradient.addColorStop(1, "#b72d2d");
 
       ctx.fillStyle = gradient;
       ctx.fillRect(x, height - barHeight, barWidth, barHeight);
@@ -346,7 +346,7 @@ function Dubstep() {
       e: "dub_vocal3",
       r: "dub_vocal4",
       u: "dub_kick1",
-      i: "dub_fx1",
+      i: "dub_crash1",
       o: "dub_hat1",
       p: "dub_snare1",
       a: "dub_wub1",
@@ -382,6 +382,7 @@ function Dubstep() {
         startVelocity: 30,
         spread: 360,
         origin: { x: Math.random(), y: Math.random() * 0.5 },
+        colors: ["#b26363", "#b72d2d", "#FFFFFF"],
       });
 
       const interval = setInterval(() => {
@@ -390,6 +391,7 @@ function Dubstep() {
           startVelocity: 30,
           spread: 360,
           origin: { x: Math.random(), y: Math.random() * 0.5 },
+          colors: ["#b26363", "#b72d2d", "#FFFFFF"],
         });
       }, 800);
       setConfettiInterval(interval);
@@ -450,15 +452,15 @@ function Dubstep() {
     window.location.href = "/dubstep";
   };
 
-  const openTrance = () => {
-    window.location.href = "/trance";
+  const openLofi = () => {
+    window.location.href = "/lofi";
   };
 
   return (
     <>
       {isLoading && (
         <div
-          className={` ${styles.loadingOverlay} h-screen flex flex-col items-center justify-center bg-[#002039]`}
+          className={` ${styles.loadingOverlay} h-screen flex flex-col items-center justify-center bg-[#381818]`}
         >
           <div
             className="flex sm:h-40 sm:mt-8 text-4xl mb-3 w-full flex-col text-center items-center justify-center"
@@ -604,9 +606,9 @@ function Dubstep() {
             <button
               type="button"
               className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-indigo-600 to-stone-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
-              onClick={() => openTrance()}
+              onClick={() => openLofi()}
             >
-              TRANCE
+              LOFI
             </button>
           </div>
           <div className="flex mt-4 mb-4 flex-col sm:flex-row">
@@ -693,7 +695,7 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("a")}
                   onClick={() => {
-                    PlaySound("dub_wub11", "a");
+                    PlaySound("dub_wub1", "a");
                     setSoundParameters("dub_wub1");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "a")}
@@ -754,13 +756,13 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("i")}
                   onClick={() => {
-                    PlaySound("liquid_fx1", "i");
-                    setSoundParameters("liquid_fx1");
+                    PlaySound("dub_crash1", "i");
+                    setSoundParameters("dub_crash1");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "i")}
                   onTouchEnd={(event) => handleTouchEnd(event, "i")}
                 >
-                  PERC 1{renderProgressBar("i")}
+                  CRASH{renderProgressBar("i")}
                 </div>
                 <div
                   className={getKeyStyle("o")}
