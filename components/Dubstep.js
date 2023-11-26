@@ -647,8 +647,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("q")}
                   onClick={() => {
-                    PlaySound("liquid_vocal1", "q");
-                    setSoundParameters("liquid_vocal1");
+                    PlaySound("dub_vocal1", "q");
+                    setSoundParameters("dub_vocal1");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "q")}
                   onTouchEnd={(event) => handleTouchEnd(event, "q")}
@@ -658,8 +658,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("w")}
                   onClick={() => {
-                    PlaySound("liquid_vocal2", "w");
-                    setSoundParameters("liquid_vocal2");
+                    PlaySound("dub_vocal2", "w");
+                    setSoundParameters("dub_vocal2");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "w")}
                   onTouchEnd={(event) => handleTouchEnd(event, "w")}
@@ -669,8 +669,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("e")}
                   onClick={() => {
-                    PlaySound("liquid_vocal3", "e");
-                    setSoundParameters("liquid_vocal3");
+                    PlaySound("dub_vocal3", "e");
+                    setSoundParameters("dub_vocal3");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "e")}
                   onTouchEnd={(event) => handleTouchEnd(event, "e")}
@@ -680,8 +680,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("r")}
                   onClick={() => {
-                    PlaySound("liquid_vocal4", "r");
-                    setSoundParameters("liquid_vocal4");
+                    PlaySound("dub_vocal4", "r");
+                    setSoundParameters("dub_vocal4");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "r")}
                   onTouchEnd={(event) => handleTouchEnd(event, "r")}
@@ -693,8 +693,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("a")}
                   onClick={() => {
-                    PlaySound("liquid_chords1", "a");
-                    setSoundParameters("liquid_chords1");
+                    PlaySound("dub_wub11", "a");
+                    setSoundParameters("dub_wub1");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "a")}
                   onTouchEnd={(event) => handleTouchEnd(event, "a")}
@@ -704,8 +704,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("s")}
                   onClick={() => {
-                    PlaySound("liquid_chords2", "s");
-                    setSoundParameters("liquid_chords2");
+                    PlaySound("dub_wub2", "s");
+                    setSoundParameters("dub_wub2");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "s")}
                   onTouchEnd={(event) => handleTouchEnd(event, "s")}
@@ -715,8 +715,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("d")}
                   onClick={() => {
-                    PlaySound("liquid_chords3", "d");
-                    setSoundParameters("liquid_chords3");
+                    PlaySound("dub_wub3", "d");
+                    setSoundParameters("dub_wub3");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "d")}
                   onTouchEnd={(event) => handleTouchEnd(event, "d")}
@@ -726,8 +726,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("f")}
                   onClick={() => {
-                    PlaySound("liquid_chords4", "f");
-                    setSoundParameters("liquid_chords4");
+                    PlaySound("dub_wub4", "f");
+                    setSoundParameters("dub_wub4");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "f")}
                   onTouchEnd={(event) => handleTouchEnd(event, "f")}
@@ -743,8 +743,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("u")}
                   onClick={() => {
-                    PlaySound("liquid_kick1", "u");
-                    setSoundParameters("liquid_kick1");
+                    PlaySound("dub_kick1", "u");
+                    setSoundParameters("dub_kick1");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "u")}
                   onTouchEnd={(event) => handleTouchEnd(event, "u")}
@@ -765,8 +765,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("o")}
                   onClick={() => {
-                    PlaySound("liquid_hats1", "o");
-                    setSoundParameters("liquid_hats1");
+                    PlaySound("dub_hat1", "o");
+                    setSoundParameters("dub_hat1");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "o")}
                   onTouchEnd={(event) => handleTouchEnd(event, "o")}
@@ -776,8 +776,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("p")}
                   onClick={() => {
-                    PlaySound("liquid_snare1", "p");
-                    setSoundParameters("liquid_snare1");
+                    PlaySound("dub_snare1", "p");
+                    setSoundParameters("dub_snare1");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "p")}
                   onTouchEnd={(event) => handleTouchEnd(event, "p")}
@@ -789,8 +789,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("j")}
                   onClick={() => {
-                    PlaySound("liquid_bass1", "j");
-                    setSoundParameters("liquid_bass1");
+                    PlaySound("dub_fx1", "j");
+                    setSoundParameters("dub_fx1");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "j")}
                   onTouchEnd={(event) => handleTouchEnd(event, "j")}
@@ -800,8 +800,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("k")}
                   onClick={() => {
-                    PlaySound("liquid_bass2", "k");
-                    setSoundParameters("liquid_bass2");
+                    PlaySound("dub_fx2", "k");
+                    setSoundParameters("dub_fx2");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "k")}
                   onTouchEnd={(event) => handleTouchEnd(event, "k")}
@@ -811,8 +811,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle("l")}
                   onClick={() => {
-                    PlaySound("liquid_bass3", "l");
-                    setSoundParameters("liquid_bass3");
+                    PlaySound("dub_arp1", "l");
+                    setSoundParameters("dub_arp1");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "l")}
                   onTouchEnd={(event) => handleTouchEnd(event, "l")}
@@ -822,8 +822,8 @@ function Dubstep() {
                 <div
                   className={getKeyStyle(";")}
                   onClick={() => {
-                    PlaySound("liquid_bass4", ";");
-                    setSoundParameters("liquid_bass4");
+                    PlaySound("dub_arp2", ";");
+                    setSoundParameters("dub_arp2");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, ";")}
                   onTouchEnd={(event) => handleTouchEnd(event, ";")}
