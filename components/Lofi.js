@@ -508,6 +508,8 @@ const Lofi = ({ animationSpeed = 461 }) => {
           autoPlay
           loop
           muted
+          playsInline
+          poster="bgvlofi.jpeg"
           style={{
             position: "absolute",
             width: "100%",

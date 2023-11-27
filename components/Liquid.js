@@ -508,6 +508,8 @@ const Liquid = ({ animationSpeed = 172 }) => {
           autoPlay
           loop
           muted
+          playsInline
+          poster="bgvliquid.jpeg"
           style={{
             position: "absolute",
             width: "100%",

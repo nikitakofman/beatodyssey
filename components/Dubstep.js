@@ -508,6 +508,8 @@ const Dubstep = ({ animationSpeed = 400 }) => {
           autoPlay
           loop
           muted
+          playsInline
+          poster="bgvdubstep.jpeg"
           style={{
             position: "absolute",
             width: "100%",
