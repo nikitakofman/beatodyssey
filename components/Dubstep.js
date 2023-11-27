@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/Home.module.css";
 import confetti from "canvas-confetti";
 
-function Dubstep() {
+const Dubstep = ({ animationSpeed = 400 }) => {
   const [reverbLevel, setReverbLevel] = useState(0);
   const [lastPlayed, setLastPlayed] = useState(null);
   const [activeKeys, setActiveKeys] = useState({});
@@ -456,11 +456,22 @@ function Dubstep() {
     window.location.href = "/lofi";
   };
 
+  const animationStyle = {
+    animation: isMagicActive
+      ? `${styles.glowAnimation} ${animationSpeed}ms ease-in-out infinite alternate, ${styles.borderAnimation} 1s infinite`
+      : `${styles.animatedborder}`,
+    background: "linear-gradient(280deg, /* Your colors here */)",
+    backgroundSize: "200% 200%",
+    color: "white",
+    boxShadow: "0 0 10px rgba(255, 255, 255, 0.6)",
+    // Add other properties as needed
+  };
+
   return (
     <>
       {isLoading && (
         <div
-          className={` ${styles.loadingOverlay} h-screen flex flex-col items-center justify-center bg-[#381818]`}
+          className={` ${styles.loadingOverlay} h-screen flex flex-col items-center justify-center bg-[#300808]`}
         >
           <div
             className="flex sm:h-40 sm:mt-8 text-4xl mb-3 w-full flex-col text-center items-center justify-center"
@@ -536,11 +547,10 @@ function Dubstep() {
           {" "}
           <button
             onClick={triggerMagic}
-            className={`relative rounded-lg sm:hidden text-xs py-1 px-2 mr-2 w-24 ml-1 mb-1 ${
-              styles.animatedborder
-            } ${isMagicActive ? styles.rainbowanimation : ""}`}
+            className={`relative rounded-lg text-xs py-1 px-6 mr-2 ${styles.animatedborder}`}
+            style={animationStyle}
           >
-            <span className="relative text-white">Magic</span>
+            Magic
           </button>
           <img
             src="/coffee.png"
@@ -555,11 +565,10 @@ function Dubstep() {
           <div className="flex items-center mt-1 justify-center">
             <button
               onClick={triggerMagic}
-              className={`relative rounded-lg  text-xs py-1 px-6 mr-2 ${
-                styles.animatedborder
-              } ${isMagicActive ? styles.rainbowanimation : ""}`}
+              className={`relative rounded-lg text-xs py-1 px-6 mr-2 ${styles.animatedborder}`}
+              style={animationStyle}
             >
-              <span className="relative text-white">Magic</span>
+              Magic
             </button>
             <button
               onClick={handleLayoutAndMagicChange}
@@ -583,29 +592,30 @@ function Dubstep() {
           <div className="flex sm:flex-row mt-3 sm:mt-4 flex-col mb-3 ">
             <button
               type="button"
-              className="m-1 inline-block px-3 py-3 mr-3 border-2 border-white font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-amber-700 to-red-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500 hover:shadow-lg active:opacity-85"
-              onClick={() => openDubstep()}
-            >
-              DUBSTEP
-            </button>
-            <button
-              type="button"
-              className="m-1 inline-block px-3  py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-900 to-sky-300 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
-              onClick={() => openLiquid()}
-            >
-              Liquid DNB
-            </button>
-
-            <button
-              type="button"
-              className="m-1 inline-block  px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-stone-600 to-lime-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+              className="m-1 inline-block  px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-amber-900 to-amber-600 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
               onClick={() => openGlitch()}
             >
               GLITCH HOP
             </button>
+
             <button
               type="button"
-              className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-indigo-600 to-stone-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+              className="m-1 inline-block px-3  py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-stone-600 to-lime-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
+              onClick={() => openLiquid()}
+            >
+              Liquid DNB
+            </button>
+            <button
+              type="button"
+              className="m-1 inline-block px-3 py-3 mr-3 border-2 border-white font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-900 to-red-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500 hover:shadow-lg active:opacity-85"
+              onClick={() => openDubstep()}
+            >
+              DUBSTEP
+            </button>
+
+            <button
+              type="button"
+              className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-900 to-sky-300 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
               onClick={() => openLofi()}
             >
               LOFI
@@ -842,6 +852,6 @@ function Dubstep() {
       </div>
     </>
   );
-}
+};
 
 export default Dubstep;
