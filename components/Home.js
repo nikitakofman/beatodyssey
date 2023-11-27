@@ -507,6 +507,8 @@ const Home = ({ animationSpeed = 300 }) => {
           autoPlay
           loop
           muted
+          playsInline
+          poster="bgvglitch.png"
           style={{
             position: "absolute",
             width: "100%",
