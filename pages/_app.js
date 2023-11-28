@@ -21,7 +21,7 @@ function App({ Component, pageProps }) {
         />
         <meta
           property="og:image"
-          content="https://www.yourwebsiteurl.com/path/to/your/image.jpg"
+          content="https://beatodyssey.vercel.app/metaimage.png"
         />
 
         {/* You might also want to add Twitter specific tags */}
@@ -38,7 +38,7 @@ function App({ Component, pageProps }) {
         />
         <meta
           name="twitter:image"
-          content="https://www.yourwebsiteurl.com/path/to/your/twitter-image.jpg"
+          content="https://beatodyssey.vercel.app/metaimage.png"
         />
       </Head>
       <Component {...pageProps} />
