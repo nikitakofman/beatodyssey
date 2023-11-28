@@ -26,6 +26,23 @@ const Lofi = ({ animationSpeed = 461 }) => {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+
+    const checkOrientation = () => {
+      setIsLandscape(isMobileDevice && window.innerWidth > window.innerHeight);
+    };
+
+    // Check the orientation initially and on resize
+    checkOrientation();
+    window.addEventListener("resize", checkOrientation);
+
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener("resize", checkOrientation);
+  }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -498,7 +515,9 @@ const Lofi = ({ animationSpeed = 461 }) => {
         </div>
       )}
       <div
-        className="video-background sm:h-screen  flex flex-col items-center justify-center"
+        className={`video-background ${
+          isLandscape ? "h-full" : "sm:h-screen"
+        } flex flex-col items-center justify-center`}
         style={{
           position: "relative",
           overflow: "hidden",
@@ -561,9 +580,11 @@ const Lofi = ({ animationSpeed = 461 }) => {
           />
         </div>
         <div className="items-center hidden flex-col sm:flex justify-center">
-          <p className="text-white mr-3 font-semibold mb-2 text-xs">
-            PLAY WITH YOUR KEYBOARD!{" "}
-          </p>
+          {!isLandscape && (
+            <p className="text-white mr-3 font-semibold mb-2 text-xs">
+              PLAY WITH YOUR KEYBOARD!{" "}
+            </p>
+          )}
           <div className="flex items-center mt-1 justify-center">
             <button
               onClick={triggerMagic}
@@ -572,17 +593,19 @@ const Lofi = ({ animationSpeed = 461 }) => {
             >
               Magic
             </button>
-            <button
-              onClick={handleLayoutAndMagicChange}
-              className=" cursor-pointer transition-all 
+            {!isLandscape && (
+              <button
+                onClick={handleLayoutAndMagicChange}
+                className=" cursor-pointer transition-all 
       bg-gray-700 text-white px-3 py-1 rounded-lg text-sm
       border-slate-300/80
       border-[1px] hover:brightness-110 hover:border-amber-400
        active:brightness-90 active:translate-y-1   hover:shadow-green-300 shadow-green-300 active:shadow-none  "
-              style={{ fontFamily: "Chivo" }}
-            >
-              {isFrenchLayout ? "Switch to QWERTY" : "Switch to AZERTY"}
-            </button>
+                style={{ fontFamily: "Chivo" }}
+              >
+                {isFrenchLayout ? "Switch to QWERTY" : "Switch to AZERTY"}
+              </button>
+            )}
             <img
               src="/coffee.png"
               onClick={buyCoffee}
@@ -694,8 +717,8 @@ const Lofi = ({ animationSpeed = 461 }) => {
                 <div
                   className={getKeyStyle("r")}
                   onClick={() => {
-                    PlaySound("lofi_fx2", "r");
-                    setSoundParameters("lofi_fx2");
+                    PlaySound("lofi_vocal4", "r");
+                    setSoundParameters("lofi_vocal4");
                   }}
                   onTouchStart={(event) => handleTouchStart(event, "r")}
                   onTouchEnd={(event) => handleTouchEnd(event, "r")}

@@ -275,3 +275,9 @@
 .hidden {
   display: none; /* Hide when loading is done */
 }
+
+@media screen and (orientation: landscape) {
+  .landscape\:h-full {
+    height: 100%;
+  }
+}

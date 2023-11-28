@@ -26,6 +26,40 @@ const Home = ({ animationSpeed = 300 }) => {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+
+    const checkOrientation = () => {
+      setIsLandscape(isMobileDevice && window.innerWidth > window.innerHeight);
+    };
+
+    // Check the orientation initially and on resize
+    checkOrientation();
+    window.addEventListener("resize", checkOrientation);
+
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener("resize", checkOrientation);
+  }, []);
+
+  // function isSafari() {
+  //   if (typeof window === "undefined" || !window.navigator) {
+  //     // Not running in a browser environment (e.g., server-side rendering)
+  //     return false;
+  //   }
+
+  //   const userAgent = window.navigator.userAgent;
+  //   const isChrome = userAgent.indexOf("Chrome") > -1;
+  //   const isSafari = userAgent.indexOf("Safari") > -1;
+
+  //   // Chrome has both 'Chrome' and 'Safari' in its user agent string,
+  //   // so we need to ensure that 'Chrome' is not present
+  //   return isSafari && !isChrome;
+  // }
+
+  // console.log("Is Safari:", isSafari());
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -470,7 +504,7 @@ const Home = ({ animationSpeed = 300 }) => {
     <>
       {isLoading && (
         <div
-          className={` ${styles.loadingOverlay} h-screen flex flex-col items-center justify-center bg-[#261602]`}
+          className={` ${styles.loadingOverlay} h-screen flex flex-col items-center justify-center bg-[#002039]`}
         >
           <div
             className="flex sm:h-40 sm:mt-8 text-4xl mb-3 w-full flex-col text-center items-center justify-center"
@@ -497,7 +531,9 @@ const Home = ({ animationSpeed = 300 }) => {
         </div>
       )}
       <div
-        className="video-background sm:h-screen  flex flex-col items-center justify-center"
+        className={`video-background ${
+          isLandscape ? "h-full" : "sm:h-screen"
+        } flex flex-col items-center justify-center`}
         style={{
           position: "relative",
           overflow: "hidden",
@@ -560,9 +596,11 @@ const Home = ({ animationSpeed = 300 }) => {
           />
         </div>
         <div className="items-center hidden flex-col sm:flex justify-center">
-          <p className="text-white mr-3 font-semibold mb-2 text-xs">
-            PLAY WITH YOUR KEYBOARD!{" "}
-          </p>
+          {!isLandscape && (
+            <p className="text-white mr-3 font-semibold mb-2 text-xs">
+              PLAY WITH YOUR KEYBOARD!{" "}
+            </p>
+          )}
           <div className="flex items-center mt-1 justify-center">
             <button
               onClick={triggerMagic}
@@ -572,17 +610,19 @@ const Home = ({ animationSpeed = 300 }) => {
               Magic
             </button>
 
-            <button
-              onClick={handleLayoutAndMagicChange}
-              className=" cursor-pointer transition-all 
+            {!isLandscape && (
+              <button
+                onClick={handleLayoutAndMagicChange}
+                className=" cursor-pointer transition-all 
       bg-gray-700 text-white px-3 py-1 rounded-lg text-sm
       border-slate-300/80
       border-[1px] hover:brightness-110 hover:border-amber-400
        active:brightness-90 active:translate-y-1   hover:shadow-green-300 shadow-green-300 active:shadow-none  "
-              style={{ fontFamily: "Chivo" }}
-            >
-              {isFrenchLayout ? "Switch to QWERTY" : "Switch to AZERTY"}
-            </button>
+                style={{ fontFamily: "Chivo" }}
+              >
+                {isFrenchLayout ? "Switch to QWERTY" : "Switch to AZERTY"}
+              </button>
+            )}
             <img
               src="/coffee.png"
               onClick={buyCoffee}
@@ -809,7 +849,7 @@ const Home = ({ animationSpeed = 300 }) => {
                   onTouchStart={(event) => handleTouchStart(event, "j")}
                   onTouchEnd={(event) => handleTouchEnd(event, "j")}
                 >
-                  KICK 2{renderProgressBar("j")}
+                  BASS 1{renderProgressBar("j")}
                 </div>
                 <div
                   className={getKeyStyle("k")}
@@ -820,7 +860,7 @@ const Home = ({ animationSpeed = 300 }) => {
                   onTouchStart={(event) => handleTouchStart(event, "k")}
                   onTouchEnd={(event) => handleTouchEnd(event, "k")}
                 >
-                  PERC 2{renderProgressBar("k")}
+                  BASS 2{renderProgressBar("k")}
                 </div>
                 <div
                   className={getKeyStyle("l")}
@@ -831,7 +871,7 @@ const Home = ({ animationSpeed = 300 }) => {
                   onTouchStart={(event) => handleTouchStart(event, "l")}
                   onTouchEnd={(event) => handleTouchEnd(event, "l")}
                 >
-                  HIHAT 2{renderProgressBar("l")}
+                  BASS 3{renderProgressBar("l")}
                 </div>
                 <div
                   className={getKeyStyle(";")}
@@ -842,7 +882,7 @@ const Home = ({ animationSpeed = 300 }) => {
                   onTouchStart={(event) => handleTouchStart(event, ";")}
                   onTouchEnd={(event) => handleTouchEnd(event, ";")}
                 >
-                  SNARE 2{renderProgressBar(";")}
+                  CLAP{renderProgressBar(";")}
                 </div>
               </div>
             </div>

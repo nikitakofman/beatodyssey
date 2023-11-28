@@ -6,6 +6,10 @@ function App({ Component, pageProps }) {
     <>
       <Head>
         <title>Beat Odyssey</title>
+        <meta
+          name="description"
+          content="Beat Odyssey is a virtual drum machine where you can have fun playing different electronic music genres."
+        ></meta>
       </Head>
       <Component {...pageProps} />
     </>
