@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/Home.module.css";
 import confetti from "canvas-confetti";
+import Menu from "./Menu";
 
 const Lofi = ({ animationSpeed = 461 }) => {
   const [reverbLevel, setReverbLevel] = useState(0);
@@ -614,38 +615,7 @@ const Lofi = ({ animationSpeed = 461 }) => {
           </div>
         </div>
         <div className="flex sm:flex-col items-center justify-center">
-          <div className="flex sm:flex-row mt-3 sm:mt-4 flex-col mb-3 ">
-            <button
-              type="button"
-              className="m-1 inline-block  px-3 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-amber-900 to-amber-600 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
-              onClick={() => openGlitch()}
-            >
-              GLITCH HOP
-            </button>
-
-            <button
-              type="button"
-              className="m-1 inline-block px-3  py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-stone-600 to-lime-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
-              onClick={() => openLiquid()}
-            >
-              Liquid DNB
-            </button>
-            <button
-              type="button"
-              className="m-1 inline-block px-3 py-3 mr-3  font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-red-900 to-red-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500 hover:shadow-lg active:opacity-85"
-              onClick={() => openDubstep()}
-            >
-              DUBSTEP
-            </button>
-
-            <button
-              type="button"
-              className="m-1 inline-block px-3 py-3 mr-3 font-bold text-center border-2 border-white text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-900 to-sky-300 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-110 hover:rotate-2 hover:bg-amber-500  hover:shadow-lg active:opacity-85"
-              onClick={() => openLofi()}
-            >
-              LOFI
-            </button>
-          </div>
+          <Menu currentPage="lofi" />
           <div className="flex mt-4 mb-4 flex-col sm:flex-row">
             <div className="flex border-2  rounded-md bg-neutral-300 p-1.5 shadow-xl flex-col items-center justify-center m-2 sm:mr-10">
               <label className="mb-2 font-semibold">REVERB</label>

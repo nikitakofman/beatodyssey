@@ -156,6 +156,23 @@
   }
 }
 
+.animatedborder2 {
+  animation: borderAnimation2 3s infinite;
+  border: 2px solid;
+}
+
+@keyframes borderAnimation2 {
+  0% {
+    border-color: rgb(110, 110, 110);
+  }
+  50% {
+    border-color: rgb(255, 255, 255);
+  }
+  100% {
+    border-color: rgb(110, 110, 110);
+  }
+}
+
 .rainbowanimation {
   animation: glowAnimation 500ms ease-in-out infinite alternate;
   background: linear-gradient(

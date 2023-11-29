@@ -279,14 +279,14 @@ const Dubstep = ({ animationSpeed = 400 }) => {
       k: "dub_fx2",
       l: "dub_arp1",
       ";": "dub_arp2",
-      // z: "dub_fx1",
-      // x: "dub_fx2",
-      // c: "dub_arp1",
-      // v: "dub_arp2",
-      // m: "dub_fx1",
-      // ",": "dub_fx2",
-      // ".": "dub_arp1",
-      // "/": "dub_arp2",
+      z: "dub_fx1",
+      x: "dub_fx2",
+      c: "dub_arp1",
+      v: "dub_arp2",
+      m: "dub_fx1",
+      ",": "dub_fx2",
+      ".": "dub_arp1",
+      "/": "dub_arp2",
     };
 
     const soundToPlay = soundMap[keyToPlay];
@@ -390,14 +390,14 @@ const Dubstep = ({ animationSpeed = 400 }) => {
       k: "dub_fx2",
       l: "dub_arp1",
       ";": "dub_arp2",
-      // z: "dub_fx1",
-      // x: "dub_fx2",
-      // c: "dub_arp1",
-      // v: "dub_arp2",
-      // m: "dub_fx1",
-      // ",": "dub_fx2",
-      // ".": "dub_arp1",
-      // "/": "dub_arp2",
+      z: "dub_fx1",
+      x: "dub_fx2",
+      c: "dub_arp1",
+      v: "dub_arp2",
+      m: "dub_fx1",
+      ",": "dub_fx2",
+      ".": "dub_arp1",
+      "/": "dub_arp2",
     };
 
     const soundToPlay = soundMap[key];
@@ -765,7 +765,7 @@ const Dubstep = ({ animationSpeed = 400 }) => {
                   WUB 4{renderProgressBar("f")}
                 </div>
               </div>
-              {/* <div className="flex flex-wrap items-center justify-center">
+              <div className="flex flex-wrap items-center justify-center">
                 <div
                   className={getKeyStyle("z")}
                   onClick={() => {
@@ -810,7 +810,7 @@ const Dubstep = ({ animationSpeed = 400 }) => {
                 >
                   ARP 2{renderProgressBar("v")}
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
           <div className="flex w-full flex-wrap items-center text-xs justify-center ">
@@ -907,7 +907,7 @@ const Dubstep = ({ animationSpeed = 400 }) => {
                   ARP 2{renderProgressBar(";")}
                 </div>
               </div>
-              {/* <div className="flex flex-wrap items-center justify-center">
+              <div className="flex flex-wrap items-center justify-center">
                 <div
                   className={getKeyStyle("m")}
                   onClick={() => {
@@ -952,7 +952,7 @@ const Dubstep = ({ animationSpeed = 400 }) => {
                 >
                   ARP 2{renderProgressBar("/")}
                 </div>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

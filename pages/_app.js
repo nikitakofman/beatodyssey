@@ -27,10 +27,7 @@ function App({ Component, pageProps }) {
         {/* You might also want to add Twitter specific tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="beatodyssey.com" />
-        <meta
-          property="twitter:url"
-          content="https://www.yourwebsiteurl.com/"
-        />
+        <meta property="twitter:url" content="https://www.beatodyssey.com/" />
         <meta name="twitter:title" content="Beat Odyssey" />
         <meta
           name="twitter:description"
